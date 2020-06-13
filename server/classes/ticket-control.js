@@ -41,6 +41,7 @@ class TicketControll {
   }
 
   lastTiket = () => `Tiket ${this.last}`;
+  lastFourInQueue = () => this.lastFour;
 
   attendTicket = desktop => {
     if (this.tickets.length === 0) return 'Empty queue';
@@ -52,7 +53,6 @@ class TicketControll {
     this.lastFour.unshift(ticket);
 
     if (this.lastFour.length > 4) this.lastFour.pop();
-    console.log(this.lastFour);
     this.saveFile();
 
     return ticket;

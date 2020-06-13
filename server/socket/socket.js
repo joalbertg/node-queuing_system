@@ -1,13 +1,14 @@
 const { io } = require('../server');
 const { TicketControll } = require('../classes');
 
-const ticketControl = new TicketControll();
+const ticketControll = new TicketControll();
 
 io.on('connection', client => {
   console.log('User connected');
 
   client.emit('currentState', {
-    current: ticketControl.lastTiket()
+    current: ticketControll.lastTiket(),
+    lastFour: ticketControll.lastFourInQueue()
   });
 
   client.on('disconnect', () => {
@@ -16,7 +17,7 @@ io.on('connection', client => {
 
   client.on('nextTicket', (data, callback) => {
     callback({
-      ticket: ticketControl.nextNum()
+      ticket: ticketControll.nextNum()
     });
   });
 
@@ -30,7 +31,11 @@ io.on('connection', client => {
     }
 
     callback({
-      ticket: ticketControl.attendTicket(data.desktop)
+      ticket: ticketControll.attendTicket(data.desktop)
+    });
+
+    client.broadcast.emit('lastFour', {
+      lastFour: ticketControll.lastFourInQueue()
     });
   });
 });

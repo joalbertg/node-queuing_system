@@ -3,6 +3,7 @@ const socketIO = require('socket.io');
 const http = require('http');
 const path = require('path');
 
+const { TicketControll } = require('./classes');
 
 const publicPath = path.resolve(__dirname, '../public');
 const port = process.env.PORT || 3000;
@@ -14,6 +15,8 @@ app.use(express.static(publicPath));
 // this ithe backend communication
 module.exports.io = socketIO(server);
 require('./socket/socket');
+
+const ticketControl = new TicketControll();
 
 server.listen(port, err => {
     if (err) throw new Error(err);
